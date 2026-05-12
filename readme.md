@@ -56,7 +56,7 @@ Synthetic portfolio data flows in. AI reasoning produces structured recommendati
 
 ## Core Deliverables
 
-### 1. Modernization Intelligence Advisor *(Option 1a from the brief)*
+### 1. Modernization Intelligence Advisor
 
 An AI assistant that ingests an application's metadata and produces a structured recommendation report. For each application, it outputs:
 
@@ -67,7 +67,7 @@ An AI assistant that ingests an application's metadata and produces a structured
 - **Estimated benefits** — projected impact on cost, reliability, performance, security, delivery speed
 - **Business-ready reasoning** — a plain-language explanation a CIO could quote in a board meeting
 
-### 2. Modernization Portfolio Dashboard *(Option 1b from the brief)*
+### 2. Modernization Portfolio Dashboard
 
 A live dashboard for executives and modernization leaders. It shows:
 
