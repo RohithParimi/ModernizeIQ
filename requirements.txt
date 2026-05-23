@@ -1,8 +1,10 @@
 fastapi
 uvicorn
-sqlalchemy
+sqlalchemy>=2.0
+alembic
 psycopg2-binary
 pgvector
 anthropic
-pydantic
+pydantic>=2.0
 pytest
+python-dotenv

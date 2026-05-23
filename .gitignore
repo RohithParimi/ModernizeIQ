@@ -1,4 +1,30 @@
-python
-uv.lock
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Distribution / packaging
+*.egg-info/
+build/
+dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files (secrets)
+.env
+
+#Uncomment if you really aren't using these:
 pyproject.toml
-.venv
+uv.lock

@@ -56,8 +56,7 @@ class InfrastructureSchema(BaseModel):
     location: str = Field(..., description="e.g., Hyderabad DataCenter, AWS ap-south-1")
     owner_team: str = Field(..., description="e.g., Windows Core OS Team, Cloud Infra Team")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class DependencySchema(BaseModel):
@@ -67,8 +66,7 @@ class DependencySchema(BaseModel):
     protocol: str = Field(..., description="e.g., HTTPS, gRPC, JDBC, MQ")
     criticality: CriticalityLevel = Field(default=CriticalityLevel.MEDIUM, description="How vital is this specific link?")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class ApplicationSchema(BaseModel):
@@ -84,8 +82,7 @@ class ApplicationSchema(BaseModel):
     # Foreign Key Link: Points directly to an Infrastructure ID
     infrastructure_id: str
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 class SecurityFindingSchema(BaseModel):
     id: str = Field(default_factory=lambda: f"vuln-{uuid4().hex[:8]}")
@@ -101,8 +98,7 @@ class SecurityFindingSchema(BaseModel):
     remediation_steps: Optional[str] = Field(None, description="e.g., Upgrade Carbon Black App Control to version 8.10")
     mitigation_status: Optional[str] = Field(None, description="e.g., Isolated from internet access, protected by network firewalls")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class OperationalMetricSchema(BaseModel):
@@ -113,8 +109,7 @@ class OperationalMetricSchema(BaseModel):
     availability_pct: float = Field(default=100.0, ge=0.0, le=100.0, description="Uptime percentage, e.g., 99.95")
     cpu_utilization_pct: float= Field(default=80.0, ge=0.0, le=100.0, description="CPU Utilization percentage, e.g., 85.5%" )
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 class WaveSchema(BaseModel):
     # e.g., wave-1, wave-2
@@ -124,8 +119,7 @@ class WaveSchema(BaseModel):
     target_start_date: date
     target_end_date: date
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class RecommendationSchema(BaseModel):
@@ -144,5 +138,4 @@ class RecommendationSchema(BaseModel):
     # The Schedule Link
     wave_id: Optional[str] = Field(None, description="Links this specific recommendation to a scheduled migration wave")
 
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
