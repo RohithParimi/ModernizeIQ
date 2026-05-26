@@ -25,7 +25,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 from db.session import SessionLocal
-from db.models import Infrastructure,Application
+from db.models import Infrastructure,Application,Dependency
 from api.schemas import(
     EnvironmentType,ArchetypeType,CriticalityLevel
 )
@@ -282,6 +282,55 @@ def make_app(archetype: ArchetypeType, infra: Infrastructure, rng: random.Random
     else:
         raise ValueError(f"Unknown archetype mapped: {archetype}")
 
+# Archetype distribution - weights drawn directly from data_design.md spec
+DEPENDENCY_COUNT_RANGES = {
+    ArchetypeType.LEGACY_MONOLITH:     (1, 3),
+    ArchetypeType.MODERN_MICROSERVICE: (3, 5),
+    ArchetypeType.COTS_VENDOR:         (2, 3),
+    ArchetypeType.INTERNAL_TOOL:       (1, 3),
+    ArchetypeType.COMPLIANCE_CRITICAL: (2, 4),
+}
+
+PROTOCOLS = ["HTTPS", "HTTPS", "HTTPS", "gRPC", "JDBC", "MQ"]  # HTTPS-weighted
+
+def generate_dependencies(apps: List[Application], rng: random.Random, fake: Faker) -> List[Dependency]:
+    """Generates a realistic communication fabric across our enterprise systems portfolio."""
+    deps = []
+    for app in apps:
+        low, high = DEPENDENCY_COUNT_RANGES[app.archetype]
+        edge_count = rng.randint(low, high)
+
+        # Pool of possible targets: all OTHER applications
+        candidates = [a for a in apps if a.id != app.id]
+
+        # Slight bias toward same-archetype targets (60/40 structural mix)
+        same_arch = [a for a in candidates if a.archetype == app.archetype]
+        other = [a for a in candidates if a.archetype != app.archetype]
+
+        targets = []
+        for _ in range(edge_count):
+            if same_arch and rng.random() < 0.6:
+                targets.append(rng.choice(same_arch))
+            elif other:
+                targets.append(rng.choice(other))
+
+        # Deduplicate using a dictionary mapping key to avoid repeat target links
+        targets = list({t.id: t for t in targets}.values())
+
+        for tgt in targets:
+            deps.append(Dependency(
+                id=f"dep-{fake.uuid4()[:8]}", # Generates an isolated short identification key
+                source_app_id=app.id,
+                target_app_id=tgt.id,
+                protocol=rng.choice(PROTOCOLS),
+                criticality=rng.choices(
+                    [CriticalityLevel.HIGH, CriticalityLevel.MEDIUM, CriticalityLevel.LOW],
+                    weights=[0.3, 0.5, 0.2],
+                    k=1
+                )[0],
+            ))
+    return deps
+
 def wipe(session: session) -> None:
     """Delete all generated data in a dependency-safe order to prevent Foreign Key constraint crashes."""
     print("🧹 Wiping database portfolio records safely...")
@@ -356,9 +405,18 @@ def generate_portfolio(n: int = 50, seed: int = 42, do_wipe: bool = False) -> No
             session.add(app_row)
             apps.append(app_row)
 
-        # Bulk commit everything over the database network pipe
+        # Flush or commit apps first so their database IDs are valid before making links!
+        session.flush()
+
+        # 3. NEW: Compute and append our relational dependency connections
+        print("📡 Connecting communication lanes across systems...")
+        deps = generate_dependencies(apps, rng, fake)
+        session.add_all(deps)
+        
+        # Final batch commit over the Postgres pipe
         session.commit()
-        print(f"🎉 SUCCESS: Seeded {n} infrastructure + {n} application rows structurally matching specifications.")
+        print(f"🎉 SUCCESS: Seeded {n} infrastructure + {n} application rows.")
+        print(f"🔗 Network Fabric: Seeded {len(deps)} dependency edges in DB.")
 
 
 if __name__ == "__main__":
