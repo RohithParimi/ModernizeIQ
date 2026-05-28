@@ -25,9 +25,9 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 from db.session import SessionLocal
-from db.models import Infrastructure,Application,Dependency
+from db.models import Infrastructure,Application,Dependency,SecurityFinding,OperationalMetric
 from api.schemas import(
-    EnvironmentType,ArchetypeType,CriticalityLevel
+    EnvironmentType,ArchetypeType,CriticalityLevel,SeverityLevel
 )
 
 #Archetype distribution - weights drawn from data_design.md
@@ -376,6 +376,85 @@ def wipe(session: session) -> None:
         print(f"❌ CRITICAL error during wipe execution sequence: {str(e)}")
         session.rollback()
         raise e
+
+# ==========================================
+# THURSDAY TASK: TELEMETRY & SECURITY CONSTANTS
+# ==========================================
+
+# Plausibly-shaped synthetic CVEs based on enterprise impact footprints
+CVE_CATALOG = [
+    ("CVE-2021-44228", "Log4Shell Remote Code Execution",         9.8, SeverityLevel.CRITICAL),
+    ("CVE-2023-38831", "WinRAR Remote Code Execution",            7.8, SeverityLevel.HIGH),
+    ("CVE-2023-22515", "Confluence Broken Access Control",        9.1, SeverityLevel.CRITICAL),
+    ("CVE-2022-22965", "Spring4Shell RCE",                        9.8, SeverityLevel.CRITICAL),
+    ("CVE-2014-0160",  "Heartbleed Memory Disclosure",            7.5, SeverityLevel.HIGH),
+    ("CVE-2017-5638",  "Apache Struts2 RCE",                      10.0, SeverityLevel.CRITICAL),
+    ("CVE-2019-19781", "Citrix Path Traversal",                   9.8, SeverityLevel.CRITICAL),
+    ("CVE-2020-1472",  "Zerologon Privilege Escalation",          10.0, SeverityLevel.CRITICAL),
+    ("CVE-2023-46604", "Apache ActiveMQ RCE",                     10.0, SeverityLevel.CRITICAL),
+    ("CVE-2024-3094",  "XZ Utils Backdoor",                       10.0, SeverityLevel.CRITICAL),
+    ("CVE-2022-30190", "Follina MSDT RCE",                        7.8, SeverityLevel.HIGH),
+    ("CVE-2023-4863",  "WebP Heap Overflow",                      8.8, SeverityLevel.HIGH),
+    ("CVE-2023-50164", "Apache Struts File Upload",               9.8, SeverityLevel.CRITICAL),
+    ("CVE-2022-26134", "Confluence OGNL Injection",               9.8, SeverityLevel.CRITICAL),
+    ("CVE-2021-26855", "Microsoft Exchange SSRF (ProxyLogon)",    9.1, SeverityLevel.CRITICAL),
+]
+
+CVE_COUNT_RANGES = {
+    ArchetypeType.LEGACY_MONOLITH:     (4, 10),  # Old, unpatched legacy layers
+    ArchetypeType.MODERN_MICROSERVICE: (0, 2),   # Clean, rapidly updated container nodes
+    ArchetypeType.COTS_VENDOR:         (2, 6),   # Subject to heavy commercial software vulnerabilities
+    ArchetypeType.INTERNAL_TOOL:       (1, 4),   # Minor administrative tech debt
+    ArchetypeType.COMPLIANCE_CRITICAL: (0, 1),   # Heavily audited runtime environments
+}
+
+METRIC_RANGES = {
+    # archetype: (incidents, mttr_hrs, availability_pct, cpu_pct)
+    ArchetypeType.LEGACY_MONOLITH:     ((5, 10), (8.0, 24.0), (95.0, 98.0), (60.0, 90.0)),
+    ArchetypeType.MODERN_MICROSERVICE: ((0, 1),  (0.1, 0.5),  (99.95, 99.99), (10.0, 30.0)),
+    ArchetypeType.COTS_VENDOR:         ((1, 4),  (2.0, 8.0),  (99.0, 99.9), (40.0, 70.0)),
+    ArchetypeType.INTERNAL_TOOL:       ((0, 2),  (4.0, 12.0), (97.0, 98.5), (1.0, 5.0)),
+    ArchetypeType.COMPLIANCE_CRITICAL: ((0, 1),  (0.5, 2.0),  (99.95, 99.99), (30.0, 60.0)),
+}
+
+def generate_security_findings(apps: List[Application], rng: random.Random, fake: Faker) -> List[SecurityFinding]:
+    """Generates a realistic vulnerability profile skewed cleanly by application archetype."""
+    findings = []
+    for app in apps:
+        low, high = CVE_COUNT_RANGES[app.archetype]
+        n = rng.randint(low, high)
+        sampled = rng.sample(CVE_CATALOG, k=min(n, len(CVE_CATALOG)))
+
+        for cve_id, title, cvss, severity in sampled:
+            has_fix = rng.random() < 0.6  # 60% chance a software patch exists
+            findings.append(SecurityFinding(
+                id=f"vuln-{fake.uuid4()[:8]}",
+                application_id=app.id,
+                cve_id=cve_id,
+                title=title,
+                severity=severity,
+                cvss_score=cvss,
+                discovered_date=fake.date_between(start_date="-2y", end_date="today"),
+                remediation_available=has_fix,
+                remediation_steps="Vendor patch available" if has_fix else None,
+                mitigation_status=None if has_fix else "Isolated from public internet",
+            ))
+    return findings
+
+def generate_operational_metrics(apps: List[Application], rng: random.Random, fake: Faker) -> List[OperationalMetric]:
+    """Attaches exactly one performance telemetry metric block per application."""
+    metrics = []
+    for app in apps:
+        (i_lo, i_hi), (m_lo, m_hi), (a_lo, a_hi), (c_lo, c_hi) = METRIC_RANGES[app.archetype]
+        metrics.append(OperationalMetric(
+            id=f"metric-{fake.uuid4()[:8]}",
+            application_id=app.id,
+            incidents_last_quarter=rng.randint(i_lo, i_hi),
+            mttr_hours=round(rng.uniform(m_lo, m_hi), 2),
+            availability_pct=round(rng.uniform(a_lo, a_hi), 3),
+            cpu_utilization_pct=round(rng.uniform(c_lo, c_hi), 2),
+        ))
+    return metrics
     
 def generate_portfolio(n: int = 50, seed: int = 42, do_wipe: bool = False) -> None:
     """Orchestrates generation using fixed seeds to validate contract models."""
@@ -412,11 +491,19 @@ def generate_portfolio(n: int = 50, seed: int = 42, do_wipe: bool = False) -> No
         print("📡 Connecting communication lanes across systems...")
         deps = generate_dependencies(apps, rng, fake)
         session.add_all(deps)
+
+        print("🛡️ Analyzing system vulnerabilities and telemetry metrics...")
+        findings = generate_security_findings(apps, rng, fake)
+        metrics = generate_operational_metrics(apps, rng, fake)
+        
+        session.add_all(findings)
+        session.add_all(metrics)
         
         # Final batch commit over the Postgres pipe
         session.commit()
         print(f"🎉 SUCCESS: Seeded {n} infrastructure + {n} application rows.")
         print(f"🔗 Network Fabric: Seeded {len(deps)} dependency edges in DB.")
+        print(f"🔒 Story Locked: Seeded {len(findings)} security findings + {len(metrics)} live metrics rows.")
 
 
 if __name__ == "__main__":
