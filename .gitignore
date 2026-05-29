@@ -26,5 +26,5 @@ Thumbs.db
 .env
 
 #Uncomment if you really aren't using these:
-pyproject.toml
-uv.lock
+#pyproject.toml
+#uv.lock

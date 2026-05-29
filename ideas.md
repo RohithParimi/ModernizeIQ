@@ -10,3 +10,7 @@ When we add this:
 - Add runtime_platform column to Application
 
 Defer until a "Modern Serverless" archetype lands in data_design.md.
+
+## CVEs aren't matched to tech stack
+
+Tag each CVE with applicable stacks and sample from the matching subset

@@ -417,6 +417,8 @@ METRIC_RANGES = {
     ArchetypeType.COMPLIANCE_CRITICAL: ((0, 1),  (0.5, 2.0),  (99.95, 99.99), (30.0, 60.0)),
 }
 
+GENERATION_DATE= date(2026,5,1) # Frozen calibration anchor point
+
 def generate_security_findings(apps: List[Application], rng: random.Random, fake: Faker) -> List[SecurityFinding]:
     """Generates a realistic vulnerability profile skewed cleanly by application archetype."""
     findings = []
@@ -434,7 +436,7 @@ def generate_security_findings(apps: List[Application], rng: random.Random, fake
                 title=title,
                 severity=severity,
                 cvss_score=cvss,
-                discovered_date=fake.date_between(start_date="-2y", end_date="today"),
+                discovered_date=fake.date_between(start_date="-2y", end_date=GENERATION_DATE),
                 remediation_available=has_fix,
                 remediation_steps="Vendor patch available" if has_fix else None,
                 mitigation_status=None if has_fix else "Isolated from public internet",
@@ -455,6 +457,21 @@ def generate_operational_metrics(apps: List[Application], rng: random.Random, fa
             cpu_utilization_pct=round(rng.uniform(c_lo, c_hi), 2),
         ))
     return metrics
+
+# scripts/generate.py
+
+def build_archetype_plan(n: int, rng: random.Random) -> List[ArchetypeType]:
+    """Guarantees each archetype its target share based on design weights, then shuffles."""
+    counts = {a: int(w * n) for a, w in ARCHETYPE_WEIGHTS}
+    
+    # Hand any rounding remainder down to the largest-weight archetypes
+    remainder = n - sum(counts.values())
+    for a, _ in sorted(ARCHETYPE_WEIGHTS, key=lambda x: x[1], reverse=True)[:remainder]:
+        counts[a] += 1
+        
+    plan = [a for a, c in counts.items() for _ in range(c)]
+    rng.shuffle(plan)
+    return plan
     
 def generate_portfolio(n: int = 50, seed: int = 42, do_wipe: bool = False) -> None:
     """Orchestrates generation using fixed seeds to validate contract models."""
@@ -472,13 +489,14 @@ def generate_portfolio(n: int = 50, seed: int = 42, do_wipe: bool = False) -> No
         print(f"🚀 Injecting {n} synthetic architectural profiles into pgvector_db...")
         
         apps: List[Application] = []
-        for _ in range(n):
-            archetype = pick_archetype(rng)
-            
-            # 1. Generate the baseline data points via our archetype logic
+        
+        # Enforce stratified quotas instead of pure probability draws
+        plan = build_archetype_plan(n, rng)
+        for archetype in plan:
+            # Generate the baseline data points via our archetype logic
             infra_row = make_infra(archetype, rng, fake)
             app_row = make_app(archetype, infra_row, rng, fake)
-            
+             
             # 2. Stage them in the session in parent -> child order
             session.add(infra_row)
             session.add(app_row)
