@@ -1,4 +1,4 @@
-.PHONY: up down psql
+.PHONY: up down psql seed wipe-seed test eval
 
 up:
 	docker compose up -d
@@ -12,3 +12,5 @@ wipe-seed:
 	uv run python scripts/generate.py --wipe
 test:
 	uv run pytest -v
+eval:
+	uv run python scripts/run_eval.py
