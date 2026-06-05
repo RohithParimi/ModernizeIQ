@@ -1,0 +1,10 @@
+scenario_id: clear-replace-06
+category: clear_replace
+app_id:   app-ea1fca65
+expected_6r: Replace
+acceptable_alternatives: []
+must_mention_keywords: [vendor, saas, commodity]
+rationale: >
+  A standard third-party commercial off-the-shelf product handling commodity business workflows. 
+  Instead of maintaining bespoke infrastructure or refactoring legacy vendor code, the system 
+  should be phased out in favor of a modern, vendor-managed cloud SaaS implementation.

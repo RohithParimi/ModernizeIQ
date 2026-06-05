@@ -1,0 +1,9 @@
+scenario_id: clear-rehost-01
+category: clear_rehost
+app_id: app-1825bc54 
+expected_6r: Rehost
+acceptable_alternatives: []
+must_mention_keywords: [lift and shift, low complexity, rehost]
+rationale: >
+  Active internal utility tool with steady usage metrics. It has minimal network dependencies 
+  and straightforward hosting requirements. Ideal candidate for a standard infrastructure lift-and-shift.

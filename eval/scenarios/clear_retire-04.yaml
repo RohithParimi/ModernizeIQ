@@ -1,0 +1,10 @@
+scenario_id: clear-retire-04
+category: clear_retire
+app_id: app-c4c2e2e3
+expected_6r: Retire
+acceptable_alternatives: []
+must_mention_keywords: [low usage, redundant, cost]
+rationale: >
+  Internal administrative tool with zero or minimal operational incidents and stagnant utilization records. 
+  The business function is duplicated by modern alternative platforms. Maintaining this system 
+  introduces dead technical debt; cost of support exceeds business value.
