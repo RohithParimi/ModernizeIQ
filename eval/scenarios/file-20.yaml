@@ -1,0 +1,10 @@
+scenario_id: wildcard-anomaly-20
+category: wildcard
+app_id:   app-47294739
+expected_6r: Refactor
+acceptable_alternatives: [Rehost]
+must_mention_keywords: [telemetry, anomaly, failure]
+rationale: >
+  An engineering anomaly: the asset uses a modern architectural blueprint but exhibits completely 
+  broken telemetry metrics, trailing availability thresholds, and excessive quarterly incidents. 
+  It demands code-level refactoring to establish foundational cloud-native resiliency.
