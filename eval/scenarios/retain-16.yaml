@@ -1,0 +1,10 @@
+scenario_id: retain-16
+category: retain
+app_id: app-de8a774b
+expected_6r: Retain
+acceptable_alternatives: []
+must_mention_keywords: [modernized, clean profile, stable]
+rationale: >
+  Clean cloud-native payment service with stable operation, a near-perfect availability record, and an isolated low 
+  vulnerability score. Since the application was recently modernized, it should be left exactly where it is under a 
+  strict target retain strategy.

@@ -1,0 +1,10 @@
+scenario_id: wildcard-anomaly-19
+category: wildcard
+app_id: app-a56c0941
+expected_6r: Replace
+acceptable_alternatives: [Replatform, Retain]
+must_mention_keywords: [circular dependency, cycle, sequencing]
+rationale: >
+  An end-of-life legacy system locked inside a complex three-way circular dependency cycle with separate enterprise nodes. 
+  While replacement is indicated, this structural cycle means no single application can be sequenced first without breaking 
+  the path, introducing an immediate wave-planning hazard.

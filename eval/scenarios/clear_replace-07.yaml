@@ -1,10 +1,10 @@
-scenario_id: clear-replace-06
+scenario_id: clear-replace-07
 category: clear_replace
-app_id:   app-ea1fca65
+app_id: app-ea1fca65
 expected_6r: Replace
 acceptable_alternatives: []
-must_mention_keywords: [vendor, saas, commodity]
+must_mention_keywords: [vendor, saas, modern idp]
 rationale: >
-  A standard third-party commercial off-the-shelf product handling commodity business workflows. 
-  Instead of maintaining bespoke infrastructure or refactoring legacy vendor code, the system 
-  should be phased out in favor of a modern, vendor-managed cloud SaaS implementation.
+  Bespoke identity access management software suite burdened with five active security vulnerabilities. Managing 
+  this complex on-premise infrastructure is no longer viable when modern cloud idp saas providers offer vastly superior 
+  security and identity automation capabilities out of the box.

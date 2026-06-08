@@ -1,0 +1,10 @@
+scenario_id: ambiguous-monolith-09
+category: ambiguous_refactor_replace
+app_id: app-655238a6
+expected_6r: Refactor
+acceptable_alternatives: [Replace]
+must_mention_keywords: [monolith, billing rules, high criticality]
+rationale: >
+  A heavy monolith processing proprietary high criticality custom billing rules. While a systematic refactor is preferred 
+  to protect these sensitive financial calculations, the continuous operational stress of ten quarterly incidents 
+  argues that migrating to a modern commercial billing hub is an equally valid path forward.

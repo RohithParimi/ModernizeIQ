@@ -3,8 +3,8 @@ category: clear_retire
 app_id: app-c4c2e2e3
 expected_6r: Retire
 acceptable_alternatives: []
-must_mention_keywords: [low usage, redundant, cost]
+must_mention_keywords: [cost, redundant, low usage]
 rationale: >
-  Internal administrative tool with zero or minimal operational incidents and stagnant utilization records. 
-  The business function is duplicated by modern alternative platforms. Maintaining this system 
-  introduces dead technical debt; cost of support exceeds business value.
+  Stale administrative tracking duplicate showing near-zero active business utilization. The asset carries 
+  four unpatched security vulnerabilities not worth fixing since its core business capabilities are fully 
+  duplicated on alternative services. Decommissioning eliminates dead technical debt and ongoing support cost.

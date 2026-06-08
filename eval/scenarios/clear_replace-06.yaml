@@ -1,10 +1,10 @@
 scenario_id: clear-replace-06
 category: clear_replace
-app_id:  app-b02b61c4
+app_id: app-b02b61c4
 expected_6r: Replace
 acceptable_alternatives: []
 must_mention_keywords: [vendor, saas, commodity]
 rationale: >
-  A standard third-party commercial off-the-shelf product handling commodity business workflows. 
-  Instead of maintaining bespoke infrastructure or refactoring legacy vendor code, the system 
-  should be phased out in favor of a modern, vendor-managed cloud SaaS implementation.
+  Standard on-premise commercial vendor product handling commodity ETL data pipelines. Modern cloud data-integration 
+  saas implementations have completely overtaken this legacy software platform, making it a prime candidate 
+  for a complete lifecycle vendor replacement.

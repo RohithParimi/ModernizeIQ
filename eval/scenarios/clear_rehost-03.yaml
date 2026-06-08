@@ -3,7 +3,8 @@ category: clear_rehost
 app_id: app-6b5252e3
 expected_6r: Rehost
 acceptable_alternatives: []
-must_mention_keywords: [lift and shift, low complexity, rehost]
+must_mention_keywords: [rehost, simple stack]
 rationale: >
-  Active internal utility tool with steady usage metrics. It has minimal network dependencies 
-  and straightforward hosting requirements. Ideal candidate for a standard infrastructure lift-and-shift.
+  Internal support logging platform utilized daily by operations. The node features a simple stack 
+  profile with three non-critical vulnerabilities that can be remediated safely post-migration. A straightforward 
+  rehost strategy provides immediate cloud infrastructure advantages.

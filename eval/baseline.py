@@ -20,7 +20,7 @@ def baseline_recommender(app_id: str) -> RecResult:
     eol = infra.os_eol_date < date(2026, 5, 1) if infra and infra.os_eol_date else False
     incidents = om.incidents_last_quarter if om else 0
 
-    if app.archetype == ArchetypeType.INTERNAL_TOOL and incidents == 0:
+    if app.archetype == ArchetypeType.INTERNAL_TOOL and incidents <= 1:
         return RecResult(SixRDecision.RETIRE, "Low corporate usage, redundant capability, operational cost exceeds business value.")
         
     if app.archetype == ArchetypeType.MODERN_MICROSERVICE and cves <= 1:

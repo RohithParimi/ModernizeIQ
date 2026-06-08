@@ -3,7 +3,8 @@ category: clear_rehost
 app_id: app-1d870966
 expected_6r: Rehost
 acceptable_alternatives: []
-must_mention_keywords: [lift and shift, low complexity, rehost]
+must_mention_keywords: [rehost, low complexity]
 rationale: >
-  Active internal utility tool with steady usage metrics. It has minimal network dependencies 
-  and straightforward hosting requirements. Ideal candidate for a standard infrastructure lift-and-shift.
+  An active internal tracking node with low complexity profile. Carrying only a single active patchable 
+  vulnerability finding, it is the cleanest operating tool within its group. The asset should be processed 
+  via a direct rehost infrastructure migration framework.

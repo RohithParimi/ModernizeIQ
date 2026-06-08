@@ -1,10 +1,12 @@
+# NOTE: inc=2, so the rules baseline returns REHOST here. This is a legit
+# business-logic retire the Phase 1 LLM is expected to BEAT the baseline on.
 scenario_id: clear-retire-05
 category: clear_retire
-app_id: app-747b6dba
+app_id: app-f8cda88b
 expected_6r: Retire
 acceptable_alternatives: []
-must_mention_keywords: [low usage, redundant, cost]
+must_mention_keywords: [redundant, saas, low usage]
 rationale: >
-  Internal administrative tool with zero or minimial operational incidents and stagnant utilization records. 
-  The business function is duplicated by modern alternative platforms. Maintaining this system 
-  introduces dead technical debt; cost of support exceeds business value.
+  Internal collection tool demonstrating negligible active organic use across business clusters. Its underlying 
+  operational function has been rendered completely redundant by modern enterprise saas data collection layers, 
+  justifying an absolute migration retirement stance.

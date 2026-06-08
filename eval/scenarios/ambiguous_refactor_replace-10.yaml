@@ -1,0 +1,10 @@
+scenario_id: ambiguous-monolith-10
+category: ambiguous_refactor_replace
+app_id: app-12476f57
+expected_6r: Refactor
+acceptable_alternatives: [Replace]
+must_mention_keywords: [monolith, mission-critical, dead toolchain]
+rationale: >
+  A mission-critical legacy clearing clearinghouse engine built on an archaic C++/MFC runtime layer. Refactoring is 
+  technically preferred to maintain absolute domain control, but a complete replacement is highly tempting given the 
+  operational liabilities of supporting a dead toolchain.

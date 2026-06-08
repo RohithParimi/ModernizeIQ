@@ -40,11 +40,6 @@ ARCHETYPE_WEIGHTS= [
     (ArchetypeType.COMPLIANCE_CRITICAL,  0.10),
 ]
 
-def pick_archetype(rng: random.Random) -> ArchetypeType:
-    """Weighted random archetype selection."""
-    archetypes, weights =zip(*ARCHETYPE_WEIGHTS)
-    return rng.choices(archetypes,weights=weights,k=1)[0]
-
 def make_infra(archetype: ArchetypeType, rng: random.Random, fake: Faker) -> Infrastructure:
     """One Infrastructure row per archetype, with realistic value ranges from data_design.md"""
     

@@ -1,0 +1,10 @@
+scenario_id: compliance-defer-18
+category: compliance_deferred
+app_id: app-ff9ab5c2
+expected_6r: Retain
+acceptable_alternatives: []
+must_mention_keywords: [compliance, freeze window, deferred]
+rationale: >
+  Audit vault store handling sensitive governance records bound to a strict geographical data-residency lock. 
+  Because we cannot relocate this asset without triggering compliance audit violations, all cloud migration actions 
+  are deferred, establishing a clear retain boundary.

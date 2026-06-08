@@ -1,0 +1,10 @@
+scenario_id: retain-15
+category: retain
+app_id: app-1d8cbbac
+expected_6r: Retain
+acceptable_alternatives: []
+must_mention_keywords: [modernized, clean profile, stable]
+rationale: >
+  A pristine, cloud-native authentication microservice displaying perfect availability metrics and zero active 
+  vulnerability findings. Because this stable system was recently modernized, there is no economic return or technical 
+  justification to adjust it; it must be retained as-is.

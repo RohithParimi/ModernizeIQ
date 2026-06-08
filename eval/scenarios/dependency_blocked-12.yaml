@@ -1,0 +1,10 @@
+scenario_id: dependency-blocked-12
+category: dependency_blocked
+app_id: app-7d154385
+expected_6r: Retain
+acceptable_alternatives: [Rehost]
+must_mention_keywords: [dependency, upstream, blocked]
+rationale: >
+  A pristine payment processing microservice exhibiting zero active vulnerabilities. It is structurally blocked 
+  from migration due to a high-frequency synchronous grpc dependency pointing to an upstream mission-critical legacy mainframe 
+  settlement wrapper that must be remediated first.

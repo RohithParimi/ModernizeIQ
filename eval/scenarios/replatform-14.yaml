@@ -1,0 +1,10 @@
+scenario_id: replatform-14
+category: replatform
+app_id: app-23e2fcb4
+expected_6r: Replatform
+acceptable_alternatives: []
+must_mention_keywords: [managed, upgrade, os eol]
+rationale: >
+  Enterprise resource planning application demonstrating reliable software execution but currently operating 
+  on a host server past its official os eol date. We choose to replatform the host infrastructure and runtime 
+  rather than risking a costly and complex rip-and-replace of the stable core application.

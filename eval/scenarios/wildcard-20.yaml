@@ -1,0 +1,10 @@
+scenario_id: wildcard-anomaly-20
+category: wildcard
+app_id: app-f91e1d4c
+expected_6r: Refactor
+acceptable_alternatives: [Replace]
+must_mention_keywords: [mission-critical, security, refactor]
+rationale: >
+  A mission-critical legacy billing monolith displaying a critical security crisis with nine unpatched CVE findings. 
+  While a code-level refactor is highly risky and complex, retaining the node as-is is negligent, creating intense operational 
+  tension with zero easy migration options.

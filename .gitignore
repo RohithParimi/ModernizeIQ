@@ -28,3 +28,5 @@ Thumbs.db
 #Uncomment if you really aren't using these:
 #pyproject.toml
 #uv.lock
+
+docs/assets/*.xlsx

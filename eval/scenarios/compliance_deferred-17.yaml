@@ -1,0 +1,10 @@
+scenario_id: compliance-defer-17
+category: compliance_deferred
+app_id: app-b45ed1f0
+expected_6r: Retain
+acceptable_alternatives: []
+must_mention_keywords: [compliance, freeze window, deferred]
+rationale: >
+  A mission-critical compliance critical transaction validation ledger subject to strict financial regulatory governance. 
+  Because this module is bound under an active corporate change freeze window, any migration action must be 
+  deferred, enforcing a retain posture this wave.

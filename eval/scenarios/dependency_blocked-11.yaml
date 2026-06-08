@@ -1,0 +1,10 @@
+scenario_id: dependency-blocked-11
+category: dependency_blocked
+app_id: app-23b8c1e9
+expected_6r: Retain
+acceptable_alternatives: [Rehost]
+must_mention_keywords: [dependency, upstream, blocked]
+rationale: >
+  A healthy, cloud-ready authorization service that maintains a tight synchronous HTTPS coupled dependency 
+  on an upstream legacy payroll monolith. Relocating this service independently would break the network data link, 
+  meaning migration is blocked and must be deferred.
