@@ -41,4 +41,10 @@ def run_harness(recommender: Recommender, scenarios=None) -> dict:
               
     print("-" * 65)
     print(f"Accuracy Target: {passed}/{len(scenarios)} = {acc:.0%}\n")
-    return {"accuracy": acc, "passed": passed, "total": len(scenarios)}
+    dec = sum(r[3] for r in rows)   # r[3] = ok_dec
+    kw  = sum(r[4] for r in rows)   # r[4] = ok_kw
+    print(f"Decision accuracy: {dec}/{len(scenarios)} = {dec/len(scenarios):.0%}")
+    print(f"Keyword hit-rate:  {kw}/{len(scenarios)} = {kw/len(scenarios):.0%}")
+    print(f"Full pass (both):  {passed}/{len(scenarios)} = {acc:.0%}")
+    return {"accuracy": acc, "decision_acc": dec/len(scenarios),
+            "keyword_acc": kw/len(scenarios), "passed": passed, "total": len(scenarios)}

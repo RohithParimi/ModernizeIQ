@@ -412,7 +412,18 @@ This split is deliberate. Trying to build everything in the brief at once produc
 
 This README is the **specification** for ModernizeIQ. Sections marked "in scope" describe the intended end state, not what is currently built. Status of each phase will be updated here as work progresses.
 
-**Current phase:** Phase 0 — Foundations
+## Project Status
+
+**Current phase:** Phase 1 — The Brain
+
+### Phase 0 — Foundations ✅ Complete (Weeks 1–5)
+- Week 1: Repo, Docker Postgres, first application record
+- Week 2: Full 7-table schema — SQLAlchemy + Alembic, smoke tests
+- Week 3: 50-app synthetic portfolio — 50 infra, 50 apps, 129 dependency edges, 181 CVE findings, 50 metric rows
+- Week 4: Eval harness + rules-based baseline recommender + 20 golden scenarios
+- Week 5: Phase 0 remediation (grounded + de-duplicated golden set), retrospective
+
+**Rules baseline — the floor Phase 1 must beat:** 75% decision accuracy · 5% keyword hit-rate · 5% full-pass, across 20 golden scenarios spanning all six 6R decisions.
 
 ---
 
