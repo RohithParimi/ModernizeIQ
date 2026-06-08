@@ -139,3 +139,12 @@ class RecommendationSchema(BaseModel):
     wave_id: Optional[str] = Field(None, description="Links this specific recommendation to a scheduled migration wave")
 
     model_config = {"from_attributes": True}
+
+class ApplicationContext(BaseModel):
+    application: ApplicationSchema
+    infrastructure: InfrastructureSchema
+    metrics: Optional[OperationalMetricSchema] = None
+    security_findings: List[SecurityFindingSchema] = Field(default_factory=list)
+    dependencies_out: List[DependencySchema] = Field(default_factory=list)
+    
+    model_config = {"from_attributes": True}

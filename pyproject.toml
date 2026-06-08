@@ -11,6 +11,7 @@ dependencies = [
     "fastapi>=0.136.1",
     "matplotlib>=3.10.9",
     "networkx>=3.6.1",
+    "openai>=2.41.0",
     "pgvector>=0.4.2",
     "psycopg2-binary>=2.9.12",
     "pydantic>=2.0",
